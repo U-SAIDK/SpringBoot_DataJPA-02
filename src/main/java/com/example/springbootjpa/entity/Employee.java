@@ -1,19 +1,21 @@
 package com.example.springbootjpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 
 /// Marks class as a JPA-managed entity.
-@Entity // Marks These as Entity Class which Hibernate will map to database
-@Table(name = "employees") // Name of the Table to Create
-@Getter                    // Lombok Library Automatically Generates Getter
-@Setter                    // Setters & Constructors(args & no args)
+
+@Entity                     // Marks These as Entity Class which Hibernate will map to database
+@Table(name = "employees")  // Name of the Table to Create
+@Getter                     // Lombok Library Automatically Generates Getter,
+@Setter                     // Setters & Constructors(args & no args)
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder                 //
+@Builder
+
 public class Employee {
 
     @Id  // Marks these as primary key(sql)
@@ -31,25 +33,30 @@ public class Employee {
 
     private Double salary;
 
-    private String department;
+    /*
+     * MANY Employees → ONE Department
+     *
+     * This creates FOREIGN KEY column:
+     * department_id in employees table
+     */
+
+    @JsonIgnore // Prevents infinite Loop
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 }
 
-//  Equivalent Sql Code :-
-// CREATE TABLE employees(
+// Equivalent Sql Code :-
+
+//  CREATE TABLE employees(
 //    id BIGSERIAL PRIMARY KEY,
-//
 //    first_name VARCHAR(100) NOT NULL,
-//
 //    last_name VARCHAR(100) NOT NULL,
-//
 //    email VARCHAR(255) UNIQUE NOT NULL,
-//
 //    salary DOUBLE PRECISION,
-//
 //    department VARCHAR(255),
-//
 //    created_at TIMESTAMP
 //    );

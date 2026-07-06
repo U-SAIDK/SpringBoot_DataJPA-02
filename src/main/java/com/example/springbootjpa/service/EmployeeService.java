@@ -1,18 +1,19 @@
 package com.example.springbootjpa.service;
 
-import com.example.springbootjpa.entity.Employee;
+import com.example.springbootjpa.dto.EmployeeRequestDTO;
+import com.example.springbootjpa.dto.EmployeeResponseDTO;
 
 import java.util.List;
 
 public interface EmployeeService {
 
-    Employee createEmployee(Employee employee);
+    EmployeeResponseDTO createEmployee(EmployeeRequestDTO employeeRequestDTO);
 
-    Employee getEmployeeById(Long id);
+    EmployeeResponseDTO getEmployeeById(Long id);
 
-    List<Employee> getAllEmployees();
+    List<EmployeeResponseDTO> getAllEmployees();
 
-    Employee updateEmployee(Long id, Employee employee);
+    EmployeeResponseDTO updateEmployee(Long id, EmployeeRequestDTO employeeRequestDTO);
 
     void deleteEmployee(Long id);
 }
